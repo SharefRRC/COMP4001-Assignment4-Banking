@@ -10,7 +10,7 @@ app.use(express.static('Public'));
 
 // Session management
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET || require('crypto').randomBytes(32).toString('hex'),
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS

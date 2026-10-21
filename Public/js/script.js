@@ -25,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         authMessage.textContent = data.message;
         if (response.ok) {
-            currentUser = email;
-            showBankingSection();
+            authMessage.textContent = 'Registration successful! Log in to continue.';
         }
     });
 
@@ -83,6 +82,18 @@ document.addEventListener('DOMContentLoaded', () => {
         operationMessage.textContent = data.message;
         if (response.ok) {
             updateBalance();
+        }
+    });
+
+    // Logout ends the server session and returns to the login form.
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        const response = await fetch('/logout', { method: 'POST' });
+        if (response.ok) {
+            currentUser = null;
+            bankingSection.style.display = 'none';
+            document.getElementById('auth-section').style.display = 'block';
+            passwordInput.value = '';
+            authMessage.textContent = 'Logged out.';
         }
     });
 
